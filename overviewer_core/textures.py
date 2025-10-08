@@ -144,7 +144,7 @@ class Textures(object):
         global known_blocks, used_datas
         self.blockmap = [None] * max_blockid * max_data
         
-        for (blockid, data), texgen in list(blockmap_generators.items()):
+        for (blockid, data), texgen in blockmap_generators.items():
             tex = texgen(self, blockid, data)
             self.blockmap[blockid * max_data + data] = self.generate_texture_tuple(tex)
         
@@ -153,12 +153,12 @@ class Textures(object):
             self.biome_grass_texture = self.biome_grass_texture.resize(self.texture_dimensions, Image.Resampling.LANCZOS)
             
             # rescale the rest
-            for i, tex in enumerate(blockmap):
+            for i, tex in enumerate(self.blockmap):
                 if tex is None:
                     continue
                 block = tex[0]
                 scaled_block = block.resize(self.texture_dimensions, Image.Resampling.LANCZOS)
-                blockmap[i] = self.generate_texture_tuple(scaled_block)
+                self.blockmap[i] = self.generate_texture_tuple(scaled_block)
         
         self.generated = True
     
